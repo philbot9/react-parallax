@@ -9,7 +9,8 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start",
+    "test-debug": "karma start --no-single-run",
     "dev": "NODE_ENV=development && webpack-dev-server --progress --config webpack.config.dev.js",
     "dist": "NODE_ENV=production && webpack -p --progress --config webpack.config.build.js"
   },
@@ -42,6 +43,7 @@
     "karma": "~0.13.11",
     "karma-chrome-launcher": "~0.2.1",
     "karma-jasmine": "~0.3.6",
+    "karma-phantomjs-launcher": "^1.0.2",
     "karma-webpack": "~1.7.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",

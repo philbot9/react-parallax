@@ -1,3 +1,5 @@
+var webpackConfig = require('./webpack.config.js');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 // Karma configuration
 // Generated on Thu Nov 06 2014 14:10:34 GMT+0100 (Mitteleuropäische Zeit)
 
@@ -8,10 +10,10 @@ module.exports = function(config) {
         basePath: '',
 
         // How long does Karma wait for a browser to reconnect (in ms).
-        browserDisconnectTimeout: 31000,
+        browserDisconnectTimeout: 61000,
 
-		// How long will Karma wait for a message from a browser before disconnecting from it (in ms).
-		browserNoActivityTimeout: 31000,
+        // How long will Karma wait for a message from a browser before disconnecting from it (in ms).
+        browserNoActivityTimeout: 61000,
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -20,19 +22,59 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'node_modules/es5-shim/es5-shim.js',
-            'node_modules/es5-shim/es5-sham.js',
-            'test/test.built.js'
+             {pattern: 'src/app/assets/images/*.png', watched: false, included: false, served: true},
+            'src/test/tests.bundle.js'
         ],
+
+        proxies: {
+            '/img/': '/src/app/assets/images/'
+        },
 
 
         // list of files to exclude
-		exclude: [],
+        exclude: [],
 
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-		preprocessors: {},
+        preprocessors: {
+            'src/test/tests.bundle.js': ['webpack']
+        },
+
+        webpack: {
+            devtool: 'inline-source-map',
+            progress: true,
+            module: {
+                loaders: [
+                    {
+                        exclude: /node_modules/,
+                        loader: 'babel-loader',
+                        test: /\.(js|jsx)$/,
+                    },
+                    {
+                        test: /\.(png|jpg)$/,
+                        loader: 'url-loader?limit=8192'
+                    },
+                    {
+                        test: /\.(jpe|jpg|gif|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+                        loader: 'file'
+                    },
+                    {
+                        test: /\.css$/,
+                        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+                    },
+                    {
+                        test: /\.scss$/,
+                        loader: ExtractTextPlugin.extract('css!sass')
+                    }
+                ],
+            },
+            plugins: [
+                new ExtractTextPlugin('style.css', {
+                  allChunks: true
+                })
+            ]
+        },
 
 
         // test results reporter to use
@@ -60,7 +102,7 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['Chrome_unsecure'],
+        browsers: ['PhantomJS', 'PhantomJS_custom'],
 
 
         // Continuous Integration mode
@@ -70,11 +112,25 @@ module.exports = function(config) {
 
         // Customized launcher
         customLaunchers: {
-            Chrome_unsecure: {
-                base: 'Chrome',
-				flags: ['--disable-web-security']
-			}
-		}
+        'PhantomJS_custom': {
+            base: 'PhantomJS',
+            options: {
+                windowName: 'my-window',
+                settings: {
+                    webSecurityEnabled: false
+                },
+                page: {
+                	viewportSize: {
+			          width: 1228,
+			          height: 1000
+			      	}
+                }
+            },
+            flags: ['--load-images=true'],
+            debug: true
+        }
+
+    }
 
     }); //config.set
 }; // module.exports
