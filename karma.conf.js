@@ -3,134 +3,132 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 // Karma configuration
 // Generated on Thu Nov 06 2014 14:10:34 GMT+0100 (Mitteleuropäische Zeit)
 
+var browserWidth = 600;
+var browserHeight = 400;
+
 module.exports = function(config) {
-    config.set({
+	config.set({
 
-        // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+		// base path that will be used to resolve all patterns (eg. files, exclude)
+		basePath: '',
 
-        // How long does Karma wait for a browser to reconnect (in ms).
-        browserDisconnectTimeout: 61000,
+		// How long does Karma wait for a browser to reconnect (in ms).
+		browserDisconnectTimeout: 61000,
 
-        // How long will Karma wait for a message from a browser before disconnecting from it (in ms).
-        browserNoActivityTimeout: 61000,
+		// How long will Karma wait for a message from a browser before disconnecting from it (in ms).
+		browserNoActivityTimeout: 61000,
 
-        // frameworks to use
-        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['jasmine'],
-
-
-        // list of files / patterns to load in the browser
-        files: [
-             {pattern: 'src/app/assets/images/*.png', watched: false, included: false, served: true},
-            'src/test/tests.bundle.js'
-        ],
-
-        proxies: {
-            '/img/': '/src/app/assets/images/'
-        },
+		// frameworks to use
+		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+		frameworks: ['jasmine'],
 
 
-        // list of files to exclude
-        exclude: [],
+		// list of files / patterns to load in the browser
+		files: [
+			 {pattern: 'src/app/assets/images/*.png', watched: false, included: false, served: true},
+			'src/test/tests.bundle.js'
+		],
+
+		proxies: {
+			'/img/': '/src/app/assets/images/'
+		},
 
 
-        // preprocess matching files before serving them to the browser
-        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {
-            'src/test/tests.bundle.js': ['webpack']
-        },
-
-        webpack: {
-            devtool: 'inline-source-map',
-            progress: true,
-            module: {
-                loaders: [
-                    {
-                        exclude: /node_modules/,
-                        loader: 'babel-loader',
-                        test: /\.(js|jsx)$/,
-                    },
-                    {
-                        test: /\.(png|jpg)$/,
-                        loader: 'url-loader?limit=8192'
-                    },
-                    {
-                        test: /\.(jpe|jpg|gif|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
-                        loader: 'file'
-                    },
-                    {
-                        test: /\.css$/,
-                        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
-                    },
-                    {
-                        test: /\.scss$/,
-                        loader: ExtractTextPlugin.extract('css!sass')
-                    }
-                ],
-            },
-            plugins: [
-                new ExtractTextPlugin('style.css', {
-                  allChunks: true
-                })
-            ]
-        },
+		// list of files to exclude
+		exclude: [],
 
 
-        // test results reporter to use
-        // possible values: 'dots', 'progress'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+		// preprocess matching files before serving them to the browser
+		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+		preprocessors: {
+			'src/test/tests.bundle.js': ['webpack']
+		},
+
+		webpack: {
+			devtool: 'inline-source-map',
+			progress: true,
+			module: {
+				loaders: [
+					{
+						exclude: /node_modules/,
+						loader: 'babel-loader',
+						test: /\.(js|jsx)$/,
+					},
+					{
+						test: /\.(png|jpg)$/,
+						loader: 'url-loader?limit=8192'
+					},
+					{
+						test: /\.(jpe|jpg|gif|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+						loader: 'file'
+					},
+					{
+						test: /\.css$/,
+						loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+					},
+					{
+						test: /\.scss$/,
+						loader: ExtractTextPlugin.extract('css!sass')
+					}
+				],
+			},
+			plugins: [
+				new ExtractTextPlugin('style.css', {
+				  allChunks: true
+				})
+			]
+		},
 
 
-        // web server port
-        port: 9876,
+		// test results reporter to use
+		// possible values: 'dots', 'progress'
+		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
+		reporters: ['progress'],
 
 
-        // enable / disable colors in the output (reporters and logs)
-        colors: true,
+		// web server port
+		port: 9876,
 
 
-        // level of logging
-        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+		// enable / disable colors in the output (reporters and logs)
+		colors: true,
 
 
-        // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: true,
+		// level of logging
+		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+		logLevel: config.LOG_INFO,
 
 
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['PhantomJS', 'PhantomJS_custom'],
+		// enable / disable watching file and executing tests whenever any file changes
+		autoWatch: true,
 
 
-        // Continuous Integration mode
-        // if true, Karma captures browsers, runs the tests and exits
-        singleRun: true,
+		// start these browsers
+		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+		browsers: ['PhantomJS_custom'],
 
 
-        // Customized launcher
-        customLaunchers: {
-        'PhantomJS_custom': {
-            base: 'PhantomJS',
-            options: {
-                windowName: 'my-window',
-                settings: {
-                    webSecurityEnabled: false
-                },
-                page: {
-                	viewportSize: {
-			          width: 1228,
-			          height: 1000
-			      	}
-                }
-            },
-            flags: ['--load-images=true'],
-            debug: true
-        }
+		// Continuous Integration mode
+		// if true, Karma captures browsers, runs the tests and exits
+		singleRun: true,
 
-    }
 
-    }); //config.set
+		// Customized launcher
+		customLaunchers: {
+		'PhantomJS_custom': {
+			base: 'Chrome',
+			options: {
+				windowName: 'my-window',
+				settings: {
+					webSecurityEnabled: false
+				},
+			},
+			// chrome height: 74px have to be added to get the desired browser height
+			flags: ['--window-size=' + browserWidth + ',' + (browserHeight + 74), '--load-images=true'],
+			debug: true
+		}
+
+	}
+
+	}); //config.set
 }; // module.exports

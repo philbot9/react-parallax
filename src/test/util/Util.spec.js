@@ -1,11 +1,30 @@
-var Util = require('../../util/Util');
+import { setAppAnchor, setPlaceHolderDivs } from '../DomHelper';
+import {
+	isScrolledIntoView
+} from '../../util/Util';
 
 describe('Util', function() {
+	let anchor = null;
 
-	it('can convert an array to an object', function(done) {
+	beforeEach(function(done) {
+		anchor = setAppAnchor();
+		done();
+	});
 
-		console.log(window.innerHeight);
-		expect(true).toBe(true);
+	it('can detect if element is in viewport - positive', function(done) {
+		const elementId = 'myelement';
+		setPlaceHolderDivs(anchor, elementId, 1);
+		setPlaceHolderDivs(anchor, 'myplaceholder', 300);
+		expect(isScrolledIntoView(document.getElementById(elementId), true)).toBe(true);
+
+		done();
+	});
+
+	it('can detect if element is in viewport - negative', function(done) {
+		const elementId = 'myelement';
+		setPlaceHolderDivs(anchor, 'myplaceholder', 300);
+		setPlaceHolderDivs(anchor, elementId, 1);
+		expect(isScrolledIntoView(document.getElementById(elementId), true)).toBe(false);
 
 		done();
 	});
