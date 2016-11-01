@@ -1,6 +1,8 @@
 import { setAppAnchor, setPlaceHolderDivs } from '../DomHelper';
 import {
-	isScrolledIntoView
+	isScrolledIntoView,
+	getWindowHeight,
+	canUseDOM
 } from '../../util/Util';
 
 describe('Util', function() {
@@ -28,4 +30,17 @@ describe('Util', function() {
 
 		done();
 	});
+
+	it('can detect window height', function (done) {
+		// @TODO height 400 is set in karma.conf, need to find a more dynamic way
+		expect(getWindowHeight(true)).toBe(400);
+		done();
+	})
+
+	it('can detect if DOM can be used', function (done) {
+		expect(canUseDOM()).toBe(true);
+		done();
+	})
+
+
 });
