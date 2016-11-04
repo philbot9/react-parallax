@@ -1,10 +1,12 @@
 var webpackConfig = require('./webpack.config.js');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var os = require('os');
 // Karma configuration
 // Generated on Thu Nov 06 2014 14:10:34 GMT+0100 (Mitteleuropäische Zeit)
 
 var browserWidth = 600;
 var browserHeight = 400;
+var heightOffset = os.platform().indexOf('win') !== -1 ? 93 : 74;
 
 module.exports = function(config) {
 	config.set({
@@ -124,7 +126,7 @@ module.exports = function(config) {
 				},
 			},
 			// chrome height: 74px have to be added to get the desired browser height
-			flags: ['--window-size=' + browserWidth + ',' + (browserHeight + 74), '--load-images=true'],
+			flags: ['--window-size=' + browserWidth + ',' + (browserHeight + heightOffset), '--load-images=true'],
 			debug: true
 		}
 
