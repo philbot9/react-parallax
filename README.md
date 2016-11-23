@@ -1,7 +1,6 @@
 # react-parallax [![NPM version][npm-image]][npm-url]
 
 
-Position calculation has changed in version 1.0.0 to get rid of some white space edge cases on large screens. I hope it does not break your current setup. In some cases you will have to adjust the `strength` value.
 ### Install
 
 ```sh
@@ -59,6 +58,8 @@ const TheContainer = React.createClass({
 # Props
 
 * bgImage: path to the background image that makes parallax effect visible - (type: String)
+* bgStyle: additional style object for the bg image/children - (type: Object)
+[Valid style attributes](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
 * bgWidth: set bgImage width manually - (type: String), eg. '400px', 'auto'
 * bgHeight: set bgImage height manually - (type: String), eg. '400px', 'auto'
 * strength: parallax effect strength (in pixel), default 100. this will define the amount of pixels the background image is translated - (type: Number)
