@@ -10,7 +10,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set NODE_ENV=development && webpack-dev-server --progress --config webpack.config.dev.js",
+    "dev": "NODE_ENV=development && webpack-dev-server --progress --config webpack.config.dev.js",
     "dist": "NODE_ENV=production && webpack -p --progress --config webpack.config.build.js"
   },
   "keywords": [
