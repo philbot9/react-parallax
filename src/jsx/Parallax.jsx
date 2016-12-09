@@ -17,7 +17,7 @@ class Parallax extends React.Component {
         let bgChildren = [];
         const children = React.Children.toArray(props.children);
         children.forEach((child, index) => {
-            if (child.type && child.type.prototype && child.type.prototype.isParallaxBackground) {
+            if (child.type && child.type.isParallaxBackground) {
                 bgChildren = bgChildren.concat(children.splice(index, 1));
             }
         });
@@ -43,7 +43,7 @@ class Parallax extends React.Component {
 
         this.node = null;
         this.content = null;
-        this.splitChildren = this.getSplitChildren(props);
+        this.splitChildren = Parallax.getSplitChildren(props);
 
         this.windowHeight = getWindowHeight(this.canUseDOM);
         this.timestamp = Date.now();
@@ -72,7 +72,7 @@ class Parallax extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.splitChildren = this.getSplitChildren(nextProps);
+        this.splitChildren = Parallax.getSplitChildren(nextProps);
     }
 
     /**
@@ -215,11 +215,6 @@ class Parallax extends React.Component {
         }
     }
 
-    bgMounted(bg) {
-        // ref to wrapp with Background children
-        this.bg = this.ReactDOM.findDOMNode(bg);
-    }
-
     /**
      * bind scope to all functions that will be called via eventlistener
      */
@@ -249,7 +244,7 @@ class Parallax extends React.Component {
                 {this.splitChildren.bgChildren.length > 0 ? (
                     <div
                       className="react-parallax-background-children"
-                      ref={bg => this.bgMounted(bg)}
+                      ref={ref => this.bg = ref}
                     >
                         {this.splitChildren.bgChildren}
                     </div>
