@@ -65,7 +65,15 @@ class Parallax extends React.Component {
         // bg image ref
         this.img = this.bgImage ? this.bgImage : null;
 
-        this.updatePosition();
+        if (this.props.bgImage) {
+            const image = new Image();
+            image.onload = image.onerror = (img) => {
+                this.updatePosition();
+            };
+            image.src = this.props.bgImage;
+        } else {
+            this.updatePosition();
+        }
         this.setParallaxStyle();
         this.setInitialBackgroundStyles(this.img);
         this.setInitialBackgroundStyles(this.bg);
@@ -91,7 +99,7 @@ class Parallax extends React.Component {
             return;
         }
         const stamp = Date.now();
-        if (stamp - this.timestamp >= 10 /* && isScrolledIntoView(this.node, this.canUseDOM)*/) {
+        if (stamp - this.timestamp >= 10 && isScrolledIntoView(this.node, this.canUseDOM)) {
             window.requestAnimationFrame(this.updatePosition);
             this.timestamp = stamp;
         }
