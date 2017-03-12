@@ -79,9 +79,17 @@ class Parallax extends React.Component {
 	 */
 	componentDidMount() {
 		if (this.canUseDOM) {
-			document.addEventListener('scroll', this.onScroll, false);
-			window.addEventListener("resize", this.onWindowResize, false);
-			window.addEventListener("load", this.onWindowLoad, false);
+			const { parentNode } = this.props
+
+			if (parentNode) {
+				parentNode.addEventListener('scroll', this.onScroll, false)
+				parentNode.addEventListener("resize", this.onWindowResize, false);
+				parentNode.addEventListener("load", this.onWindowLoad, false);
+			} else {
+				document.addEventListener('scroll', this.onScroll, false);
+				window.addEventListener("resize", this.onWindowResize, false);
+				window.addEventListener("load", this.onWindowLoad, false);
+			}
 		}
 		// ref to component itself
 		this.node = this.ReactDOM.findDOMNode(this);
@@ -289,6 +297,7 @@ Parallax.propTypes = {
 	strength: React.PropTypes.number,
 	blur: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.object]),
 	className: React.PropTypes.string,
+	parentNode: React.PropTypes.node
 };
 Parallax.defaultProps = {
 	strength: 100,
